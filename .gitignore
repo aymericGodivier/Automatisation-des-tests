@@ -1,0 +1,10 @@
+# Ignorer les fichiers de socket MySQL
+*.sock
+
+# Ignorer les dossiers spécifiques à Docker
+mysql/data
+mysql/logs
+
+# Ignorer d'autres fichiers temporaires et de configuration
+node_modules
+.env
