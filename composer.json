@@ -1,0 +1,7 @@
+{
+    "require": {
+        "nelmio/api-doc-bundle": "^4.26",
+        "twig/twig": "^3.10",
+        "symfony/asset": "^7.1"
+    }
+}
