@@ -23,3 +23,14 @@
 //
 // -- This will overwrite an existing command --
 // Cypress.Commands.overwrite('visit', (originalFn, url, options) => { ... })
+
+Cypress.Commands.add('loginByAPI', () => {
+    cy.request('POST', 'http://localhost:8081/login', {
+      username: Cypress.env('username'),
+      password: Cypress.env('password')
+    }).then((response) => {
+      expect(response.status).to.eq(200);
+      // Vous pouvez définir les cookies ou le localStorage ici si nécessaire
+      window.localStorage.setItem('authToken', response.body.token);
+    });
+  });
