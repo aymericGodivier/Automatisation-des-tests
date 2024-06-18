@@ -25,12 +25,23 @@
 // Cypress.Commands.overwrite('visit', (originalFn, url, options) => { ... })
 
 Cypress.Commands.add('loginByAPI', () => {
-    cy.request('POST', 'http://localhost:8081/login', {
-      username: Cypress.env('username'),
-      password: Cypress.env('password')
-    }).then((response) => {
-      expect(response.status).to.eq(200);
-      // Vous pouvez définir les cookies ou le localStorage ici si nécessaire
-      window.localStorage.setItem('authToken', response.body.token);
-    });
+    // cy.request('POST', 'http://localhost:8081/login', {
+    //   username: Cypress.env('username'),
+    //   password: Cypress.env('password')
+    // }).then((response) => {
+    //   expect(response.status).to.eq(200);
+    //   // Vous pouvez définir les cookies ou le localStorage ici si nécessaire
+    //   cy.log(response.body.token);
+    //   //window.localStorage.setItem('authToken', response.body.token);
+    //   //cy.setCookie('authToken', response.body.token);
+    // });
+
+    cy.visit(Cypress.env('baseUrl'));
+        //clic sur Se connecter
+        cy.get('[data-cy="nav-link-login"]').click();
+        //entre le nom d'utiliseur et le mot de passe
+        cy.get('[data-cy="login-input-username"]').type(Cypress.env('username'));
+        cy.get('[data-cy="login-input-password"]').type(Cypress.env('password'));
+        //clic sur Se connecter
+        cy.get('[data-cy="login-submit"]').click();
   });

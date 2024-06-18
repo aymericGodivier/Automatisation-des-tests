@@ -3,9 +3,21 @@ describe('Add to cart Test', () => {
     const productID = 7;
     let initialStock;
 
-    //login poru pouvori ajouetr au panier
+    const Username = Cypress.env('username');
+    const Password = Cypress.env('password');
+
+    //login pour pouvoir ajouter au panier
     before(() => {
-      cy.loginByAPI(); 
+      cy.loginByAPI();
+        // cy.visit(baseUrl);
+        // //clic sur Se connecter
+        // cy.get('[data-cy="nav-link-login"]').click();
+        // //entre le nom d'utiliseur et le mot de passe
+        // cy.get('[data-cy="login-input-username"]').type(Username);
+        // cy.get('[data-cy="login-input-password"]').type(Password);
+        // //clic sur Se connecter
+        // cy.get('[data-cy="login-submit"]').click();
+        cy.wait(1000); 
     });
   
     it('should add one product to the cart', () => {
@@ -17,19 +29,24 @@ describe('Add to cart Test', () => {
 
         // Vérifiez que l'URL contient l'ID du produit
         cy.url().should('include', `/products/${productID}`);
-        cy.log('test');
-
+        
+        cy.wait(1000);
         //récupère la valeur actuelle du stock  
         cy.get('[data-cy="detail-product-stock"]')//.should('contain.text', 'en stock') // Vérifie que le texte "en stock" est présent
         .then(($element) => {
-          const text = $element.text(); // Récupère le texte de l'élément
-          cy.log(`Texte complet récupéré : ${text}`); // Affiche le texte complet récupéré dans les logs
-          const match = text.match(/(\d+)\s*en stock/); // Extrait le nombre de produits en stock
+          try {
+            const text = $element.text(); // Récupère le texte de l'élément
+            cy.log(`Texte complet récupéré : ${text}`); // Affiche le texte complet récupéré dans les logs
+            const match = text.match(/(\d+)\s*en stock/); // Extrait le nombre de produits en stock
             if (match) {
                 initialStock = parseInt(match[1], 10);
                 expect(initialStock).to.be.a('number');
             } else {
-            throw new Error('Le nombre de produits en stock n\'a pas été trouvé');
+                throw new Error('Le nombre de produits en stock n\'a pas été trouvé');
+            }
+        } catch (error) {
+            cy.log(error.message); // Log l'erreur dans Cypress
+            throw error; // Relance l'erreur pour que le test échoue correctement
         }
       });
 
@@ -39,18 +56,28 @@ describe('Add to cart Test', () => {
         cy.get('[data-cy="cart-line-quantity"]').invoke('val').then((value) => {
             const quantity = parseInt(value, 10);
             expect(quantity).to.be.at.least(1);
-        });
+          });
+        cy.wait(1000);
         //retourne sur la page du produit  
         cy.visit(`${baseUrl}/#/products/${productID}`);
+        cy.wait(1000);
         //vérifie que le stock a diminué de 1  
-        cy.get('[data-cy="product-stock"]').invoke('text').then((text) => {
-            const match = text.match(/(\d+)\s*en stock/);
-            if (match) {
+        cy.get('[data-cy="detail-product-stock"]')//.should('contain.text', 'en stock') // Vérifie que le texte "en stock" est présent
+        .then(($element) => {
+            try {
+                const text = $element.text(); // Récupère le texte de l'élément
+                cy.log(`Texte complet récupéré : ${text}`); // Affiche le texte complet récupéré dans les logs
+                const match = text.match(/(\d+)\s*en stock/); // Extrait le nombre de produits en stock
+                if (match) {
                 const newStock = parseInt(match[1], 10);
                 expect(newStock).to.equal(initialStock - 1);
             } else {
                 throw new Error('Le nombre de produits en stock n\'a pas été trouvé');
             }
+        } catch (error) {
+            cy.log(error.message); // Log l'erreur dans Cypress
+            throw error; // Relance l'erreur pour que le test échoue correctement
+        }
         });
     });
   });
