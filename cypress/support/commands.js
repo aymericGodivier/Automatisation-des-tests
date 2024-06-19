@@ -25,16 +25,15 @@
 // Cypress.Commands.overwrite('visit', (originalFn, url, options) => { ... })
 
 Cypress.Commands.add('loginByAPI', () => {
-    // cy.request('POST', 'http://localhost:8081/login', {
-    //   username: Cypress.env('username'),
-    //   password: Cypress.env('password')
-    // }).then((response) => {
-    //   expect(response.status).to.eq(200);
-    //   // Vous pouvez définir les cookies ou le localStorage ici si nécessaire
-    //   cy.log(response.body.token);
-    //   //window.localStorage.setItem('authToken', response.body.token);
-    //   //cy.setCookie('authToken', response.body.token);
-    // });
+    cy.request('POST', `${Cypress.env('APIUrl')}/login`, {
+      username: Cypress.env('username'),
+      password: Cypress.env('password')
+    }).then((response) => {
+        expect(response.status).to.eq(200);
+        // Vous pouvez définir les cookies ou le localStorage ici si nécessaire
+        const authToken = response.body.token;
+        Cypress.env('authToken', authToken); // Set authToken dans Cypress.env
+    });
 
     cy.visit(Cypress.env('baseUrl'));
         //clic sur Se connecter
@@ -45,3 +44,32 @@ Cypress.Commands.add('loginByAPI', () => {
         //clic sur Se connecter
         cy.get('[data-cy="login-submit"]').click();
   });
+
+  Cypress.Commands.add('resetCart', () => {
+    cy.request({
+        method: 'GET',
+        url: `${Cypress.env('APIUrl')}/orders`,
+        headers: {
+          'Authorization': `Bearer ${Cypress.env('authToken')}`
+        }
+      }).then((response) => {
+        expect(response.status).to.eq(200);
+        const orderLines = response.body.orderLines;
+        
+        // Loop through each orderLine and delete it
+        orderLines.forEach(orderLine => {
+          cy.request({
+            method: 'DELETE',
+            url: `${Cypress.env('APIUrl')}/orders/${orderLine.id}/delete`,
+            headers: {
+              'Authorization': `Bearer ${Cypress.env('authToken')}`
+            }
+          }).then((deleteResponse) => {
+            expect(deleteResponse.status).to.eq(200);
+          });
+        });
+      });
+    });
+
+
+  

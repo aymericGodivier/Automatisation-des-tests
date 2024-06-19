@@ -8,7 +8,8 @@ module.exports = defineConfig({
     unknownUsername: "unknownUser",
     unknownPassword: "unknownPassword",
     baseUrl: 'http://localhost:8080',
-    APIUrl: 'http://localhost:8081'
+    APIUrl: 'http://localhost:8081',
+    authToken: ''
   },
   e2e: {
     setupNodeEvents(on, config) {

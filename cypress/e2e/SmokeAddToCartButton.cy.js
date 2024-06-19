@@ -1,6 +1,7 @@
 describe('Smoke Test for Post-Login Button', () => {
     const baseUrl = Cypress.env('baseUrl');
     const APIUrl = Cypress.env('APIUrl');
+    const productID = 5;
     const Username = Cypress.env('username');
     const Password = Cypress.env('password');
     it('should confirm the presence of the Ajouter au panier button after login', () => {
@@ -9,12 +10,12 @@ describe('Smoke Test for Post-Login Button', () => {
         username: Username,
         password: Password
       }).then((response) => {
-        // Assurez-vous que la connexion est réussie
-        expect(response.status).to.eq(200);
-  
-        // Visitez la page qui nécessite une connexion
-        cy.visit(baseUrl);  
-        //il faut que ej finisse cette partie mais je ne sais pas ce que je dosi chercher
+        // Vérifier que la connexion est réussie
+        expect(response.status).to.eq(200);  
+        // Visitez la page d'un produit
+        cy.visit(`${baseUrl}/#/products/${productID}`);  
+        //Vérifie la présence du bouton ajouetr au panier
+        cy.get('[data-cy="detail-product-add"]').should('be.visible');
       });
     });
   });
