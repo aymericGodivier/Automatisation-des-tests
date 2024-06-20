@@ -44,7 +44,8 @@ describe('Add to cart Test', () => {
         });
     });
   });
-  //vide le panier
+  //vide le panier et déconnecte
   after(() => {
     cy.resetCart();
+    cy.disconnectUser();
   });

@@ -14,6 +14,10 @@ describe('simulating user login',()=> {
         cy.get('[data-cy="login-submit"]').click();
         //Vérifie qu'on a bien le bouton Mon panier qui apparait
         cy.get('[data-cy="nav-link-cart"]').should('be.visible');
-    }); 
+    });
+    
+    after(() => {
+        cy.disconnectUser();
+    });
     
 });

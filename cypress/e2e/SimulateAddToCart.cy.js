@@ -73,5 +73,6 @@ describe('Add to cart Test', () => {
     });
     after(() => {
         cy.resetCart();
+        cy.disconnectUser();
     });
 });

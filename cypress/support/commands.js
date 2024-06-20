@@ -69,7 +69,21 @@ Cypress.Commands.add('loginByAPI', () => {
           });
         });
       });
-    });
+  });
+
+  Cypress.Commands.add('disconnectUser', () => {
+    cy.visit(Cypress.env('baseUrl'));
+    cy.get('body').then($body => {
+      if ($body.find('[data-cy="nav-link-logout"]').length > 0) {
+        // Si l'élément est trouvé, clique dessus
+        cy.get('[data-cy="nav-link-logout"]').click();
+      } else {
+        // Sinon, log un message indiquant que l'utilisateur est déjà déconnecté
+        cy.log('Utilisateur déjà déconnecté');
+      }
+    });      
+      
+  });
 
 
   
