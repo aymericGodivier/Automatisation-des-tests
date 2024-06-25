@@ -3,7 +3,7 @@ describe('Add Review API Script Injection Test', () => {
     const baseUrl = Cypress.env('baseUrl');
     // Les données de la review avec script injection dans le title
     const reviewDataWithScriptInTitle = {
-        title: '<script>console.log("test")</script>',
+        title: '<script>alert("XSS")</script>',
         comment: '!!TEST!! Ces produits sont incroyables',
         rating: 5
     };
