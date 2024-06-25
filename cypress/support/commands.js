@@ -25,24 +25,20 @@
 // Cypress.Commands.overwrite('visit', (originalFn, url, options) => { ... })
 
 Cypress.Commands.add('loginByAPI', () => {
-    cy.request('POST', `${Cypress.env('APIUrl')}/login`, {
-      username: Cypress.env('username'),
-      password: Cypress.env('password')
-    }).then((response) => {
-        expect(response.status).to.eq(200);
-        // Vous pouvez définir les cookies ou le localStorage ici si nécessaire
-        const authToken = response.body.token;
-        Cypress.env('authToken', authToken); // Set authToken dans Cypress.env
+  cy.request('POST', `${Cypress.env('APIUrl')}/login`, {
+    username: Cypress.env('username'),
+    password: Cypress.env('password')
+  }).then((response) => {
+    expect(response.status).to.eq(200);
+    // Vous pouvez définir les cookies ou le localStorage ici si nécessaire
+    const authToken = response.body.token;
+    Cypress.env('authToken', authToken); // Set authToken dans Cypress.env
+  
+     // Définir la clé de session dans le localStorage avec la clé 'user'
+    cy.window().then((window) => {
+      window.localStorage.setItem('user', authToken);
     });
-
-    cy.visit(Cypress.env('baseUrl'));
-        //clic sur Se connecter
-        cy.get('[data-cy="nav-link-login"]').click();
-        //entre le nom d'utiliseur et le mot de passe
-        cy.get('[data-cy="login-input-username"]').type(Cypress.env('username'));
-        cy.get('[data-cy="login-input-password"]').type(Cypress.env('password'));
-        //clic sur Se connecter
-        cy.get('[data-cy="login-submit"]').click();
+  });
   });
 
   Cypress.Commands.add('resetCart', () => {
@@ -83,6 +79,18 @@ Cypress.Commands.add('loginByAPI', () => {
       }
     });      
       
+  });
+
+  Cypress.Commands.add('simulateLogin', () =>{
+
+        cy.visit(Cypress.env('baseUrl'));
+        //clic sur Se connecter
+        cy.get('[data-cy="nav-link-login"]').click();
+        //entre le nom d'utiliseur et le mot de passe
+        cy.get('[data-cy="login-input-username"]').type(Cypress.env('username'));
+        cy.get('[data-cy="login-input-password"]').type(Cypress.env('password'));
+        //clic sur Se connecter
+        cy.get('[data-cy="login-submit"]').click();
   });
 
 

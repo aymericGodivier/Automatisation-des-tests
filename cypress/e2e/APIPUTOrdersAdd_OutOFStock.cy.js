@@ -1,6 +1,6 @@
 describe('Add to Cart API Test', () => {
     const baseUrl = Cypress.env('APIUrl');
-    const productID = 5;//choisir l'ID d'un produit qui est en stock 
+    const productID = 3;//mettre l'ID d'un produit qui n'est pas en stock 
     const quantity = 2; 
 
  
@@ -9,7 +9,7 @@ describe('Add to Cart API Test', () => {
         cy.loginByAPI(); 
     });    
 
-    it('add a product in stock to the cart via the API', () => {
+    it('add a product which is not in stock to the cart via the API', () => {
         cy.request({
             method: 'PUT',
             url: `${baseUrl}/orders/add`,
@@ -21,7 +21,7 @@ describe('Add to Cart API Test', () => {
                 Authorization: `Bearer ${Cypress.env('authToken')}`
             }
         }).then((response) => {
-            expect(response.status).to.eq(200);
+            expect(response.status).to.eq(200);//on ne devrait pas avoir une réponse positive
 
             // Vérifiez que la réponse contient le produit avec la quantité correcte
             const order = response.body;
