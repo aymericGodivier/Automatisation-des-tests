@@ -31,7 +31,7 @@ describe('Add Review API Script Injection Test', () => {
             },
             failOnStatusCode: false
         }).then((response) => {
-            // Vérifiez que la réponse ne contient pas de status 200 (OK)
+            // Vérifiez que la réponse ne contient pas de status 200 (OK) pour voir si l'injection de script est détecté au niveau du serveur mais ce n'ets pas le cas donc le test échoue
             expect(response.status).to.not.eq(200);
 
         });
@@ -47,7 +47,7 @@ describe('Add Review API Script Injection Test', () => {
             },
             failOnStatusCode: false
         }).then((response) => {
-            // Vérifiez que la réponse ne contient pas de status 200 (OK)
+            // Vérifiez que la réponse ne contient pas de status 200 (OK) pour voir si l'injection de script est détecté au niveau du serveur mais ce n'ets pas le cas donc le test échoue
             expect(response.status).to.not.eq(200);
 
         });
