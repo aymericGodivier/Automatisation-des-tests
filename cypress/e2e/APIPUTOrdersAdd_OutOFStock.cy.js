@@ -21,13 +21,8 @@ describe('Add to Cart API Test', () => {
                 Authorization: `Bearer ${Cypress.env('authToken')}`
             }
         }).then((response) => {
-            expect(response.status).to.eq(200);//on ne devrait pas avoir une réponse positive
+            expect(response.status).to.not.eq(200);//on ne devrait pas avoir une réponse positive
 
-            // Vérifiez que la réponse contient le produit avec la quantité correcte
-            const order = response.body;
-            const orderLine = order.orderLines.find(line => line.product.id === productID);
-            expect(orderLine).to.exist;
-            expect(orderLine.quantity).to.eq(quantity);
         });
     });
 
