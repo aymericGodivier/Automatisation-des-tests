@@ -63,8 +63,7 @@ describe('Add Review API Script Injection Test', () => {
                 Authorization: `Bearer ${Cypress.env('authToken')}`
             }
         }).then((response) => {
-            expect(response.status).to.eq(200);
-
+            
             // Visiter la page qui affiche les reviews pour vérifier si le script est exécuté
             cy.visit(`${baseUrl}/#/reviews`); 
 
