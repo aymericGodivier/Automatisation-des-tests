@@ -10,6 +10,7 @@ Assurez-vous d'avoir les éléments suivants installés sur votre machine :
 
 - [Docker](https://www.docker.com/get-started)
 - [Docker Compose](https://docs.docker.com/compose/install/)
+- [Node.js et npm](https://nodejs.org/)
 
 ## Installation
 
@@ -21,8 +22,24 @@ Assurez-vous d'avoir les éléments suivants installés sur votre machine :
 
 `cd votre-repo`
 
-2. Depuis un terminal ouvert dans le dossier du projet, lancer la commande : `sudo docker-compose up --build`
-3. Ouvrez le site depuis la page http://localhost:8080 
+### 2. Installation des dépendances
+
+Docker se charge de gérer les dépendances, pour cela effectuez les actions suivantes : 
+
+1. Depuis un terminal ouvert dans le dossier du projet, lancer la commande : `sudo docker-compose up --build`
+
+## Lancer avec Docker
+ 1. Utilisation de Docker Desktop
+
+   Ouvrez Docker Desktop et assurez-vous qu'il est en cours d'exécution.
+
+   Depuis le répertoire racine du projet, lancez la commande suivante pour construire et démarrer les conteneurs Docker :
+
+`docker-compose up --build`
+
+   Ou alors depuis l'application docker desktop, dans la liste des Containers, sélectionnez testeurlogic puis cliquez sur Start Selected Items
+
+   Ensuite, ouvrez le site dans votre navigateur à l'adresse http://localhost:8080
 
 
 ## Exécution des Tests Cypress
